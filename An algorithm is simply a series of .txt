@@ -1,0 +1,1 @@
+An algorithm is simply a series of logical steps done in a particular order.
