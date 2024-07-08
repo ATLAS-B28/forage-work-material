@@ -17,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductItemRepository extends CrudRepository<ProductItem, Long> {
 
+    long countBySearchTerm(String term);//we create a custom querying function for report controller
 }

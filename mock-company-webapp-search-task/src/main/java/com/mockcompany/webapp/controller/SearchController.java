@@ -17,6 +17,7 @@ package com.mockcompany.webapp.controller;
 import com.mockcompany.webapp.data.ProductItemRepository;
 import com.mockcompany.webapp.model.ProductItem;
 /* The springframework package allows us to take advantage of the spring capabilities */
+import com.mockcompany.webapp.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,7 +64,7 @@ public class SearchController {
      * @return The filtered products
      */
     @GetMapping("/api/products/search")
-    public Collection<ProductItem> search(@RequestParam("query") String query) {
+    public Collection<ProductItem> search(@RequestParam("query") String query) throws InstantiationException, IllegalAccessException {
         /*
          * TODO: !!!! Implement this method !!!!
          *  The easiest implementation will be to use the findAll as we are below. Then filter using Java
@@ -80,15 +81,22 @@ public class SearchController {
          *  For an added challenge, update the ProductItemRepository to do the filtering at the database layer :)
          */
 
-        Iterable<ProductItem> allItems = this.productItemRepository.findAll();
+       /* Iterable<ProductItem> allItems = this.productItemRepository.findAll();
         List<ProductItem> itemList = new ArrayList<>();
 
         // This is a loop that the code inside will execute on each of the items from the database.
         for (ProductItem item : allItems) {
             // TODO: Figure out if the item should be returned based on the query parameter!
-            boolean matchesSearch = true;
-            itemList.add(item);
+            //get the item's name
+            String itemName = item.getName().toLowerCase();
+            //lower case query
+            String queryName = query.toLowerCase();
+            //boolean matchesSearch = true;
+            //if(!itemName.equals(queryName)) matchesSearch = false;//with equals
+            boolean matchesSearch = itemName.contains(queryName);//with contains
+            if(matchesSearch) itemList.add(item);//add the item to an item list
         }
-        return itemList;
+        return itemList;*/
+        return SearchService.class.newInstance().searchAtServiceLevel(query);
     }
 }
